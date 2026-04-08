@@ -13,7 +13,7 @@ export interface WorkItem {
   id: number;
   category: string;
   title: string;
-  placeholderClass: string;
+  youtubeId: string;
   wide?: boolean;
 }
 
@@ -85,33 +85,33 @@ export const workItems: WorkItem[] = [
   {
     id: 1,
     category: 'Brand Film',
-    title: 'Luxe Hotel — Identity Film',
-    placeholderClass: 'placeholder1',
+    title: 'Lamine Yamal — DNA Campaign',
+    youtubeId: 'SvaWq2pb_zQ',
   },
   {
     id: 2,
     category: 'Commercial',
-    title: 'Fashion Label — Campaign Spot',
-    placeholderClass: 'placeholder2',
+    title: 'Rayan Cherki — Remix Spot',
+    youtubeId: 'vY2CoYjLcVg',
   },
   {
     id: 3,
     category: 'Social Content',
-    title: 'Tech Startup — Full Content Suite',
-    placeholderClass: 'placeholder3',
+    title: 'Kylian Mbappé — Now Or Never',
+    youtubeId: 'ZJdbVnV2wbs',
     wide: true,
   },
   {
     id: 4,
     category: 'Event Coverage',
-    title: 'Music Festival — Multi-Cam Edit',
-    placeholderClass: 'placeholder4',
+    title: 'Mbappé 2025/26 — Season Highlights',
+    youtubeId: 'qNQc_yqJ-BY',
   },
   {
     id: 5,
     category: 'Motion Graphics',
-    title: 'Fintech — Brand Animation',
-    placeholderClass: 'placeholder5',
+    title: 'Erling Haaland — The Viking Edit',
+    youtubeId: 'yHiEJDMng60',
   },
 ];
 
