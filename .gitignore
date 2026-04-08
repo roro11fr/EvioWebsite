@@ -5,3 +5,9 @@ token.json
 !.tmp/.gitkeep
 __pycache__/
 *.pyc
+
+# Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo

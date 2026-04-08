@@ -1,0 +1,111 @@
+.work { background: var(--clr-bg-2); }
+
+.header { margin-bottom: var(--space-lg); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.title em { font-style: italic; color: var(--clr-gold); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-block: var(--space-lg);
+}
+
+.item {
+  position: relative;
+  overflow: hidden;
+}
+.itemWide { grid-column: span 2; }
+
+.thumb {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+.itemWide .thumb { aspect-ratio: 16/9; }
+
+/* Placeholder gradient backgrounds */
+.placeholder {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s var(--ease-out);
+}
+.item:hover .placeholder { transform: scale(1.04); }
+
+.placeholder1 { background: linear-gradient(135deg, #1a1208, #2d1f0a, #0d0d0d); }
+.placeholder2 { background: linear-gradient(135deg, #0a0f1a, #0f1a2d, #080d0a); }
+.placeholder3 { background: linear-gradient(135deg, #1a0a0a, #2d1010, #0d0508); }
+.placeholder4 { background: linear-gradient(135deg, #0a1a0a, #0f2d1a, #060d0a); }
+.placeholder5 { background: linear-gradient(135deg, #12100a, #1f1a08, #0a0c0d); }
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+.item:hover .overlay { opacity: 1; }
+
+.play {
+  width: 56px;
+  height: 56px;
+  border: 1.5px solid var(--clr-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--clr-gold);
+  transform: scale(0.8);
+  transition: transform 0.3s var(--ease-out);
+}
+.item:hover .play { transform: scale(1); }
+
+.info {
+  padding: 1rem 1.25rem;
+  background: var(--clr-bg);
+}
+
+.cat {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  margin-bottom: 0.3rem;
+}
+
+.itemTitle {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--clr-cream);
+}
+
+.cta {
+  text-align: center;
+  margin-top: var(--space-md);
+}
+
+@media (max-width: 1024px) {
+  .grid    { grid-template-columns: repeat(2, 1fr); }
+  .itemWide { grid-column: span 2; }
+}
+
+@media (max-width: 768px) {
+  .grid     { grid-template-columns: 1fr; }
+  .itemWide { grid-column: span 1; }
+}

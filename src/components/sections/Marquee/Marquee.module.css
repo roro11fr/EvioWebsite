@@ -1,0 +1,30 @@
+.marquee {
+  border-block: 1px solid var(--clr-border);
+  padding-block: 1rem;
+  overflow: hidden;
+  background: var(--clr-bg-2);
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.dot {
+  color: var(--clr-gold);
+  font-size: 0.5rem;
+}

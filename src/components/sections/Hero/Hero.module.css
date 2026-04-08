@@ -1,0 +1,144 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ── Background ─────────────────────────────────────────────── */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 60% 50%, rgba(201, 164, 100, 0.07) 0%, transparent 70%),
+    linear-gradient(to bottom, rgba(8, 8, 8, 0.3) 0%, rgba(8, 8, 8, 0.95) 100%);
+}
+
+.reel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  opacity: 0.04;
+}
+
+.reelTrack {
+  display: flex;
+  gap: 3rem;
+  white-space: nowrap;
+  animation: reel-scroll 25s linear infinite;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 18vw, 18rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--clr-gold);
+  letter-spacing: -0.04em;
+}
+
+/* ── Content ────────────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--nav-h);
+  padding-inline: 2.5rem;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* CSS entry animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animItem {
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease-out) forwards;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 10vw, 10rem);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.titleLine   { display: block; }
+.titleItalic { display: block; font-style: italic; color: var(--clr-gold); }
+
+.sub {
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  color: var(--clr-muted);
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  max-width: 480px;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Scroll indicator ───────────────────────────────────────── */
+.scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.scrollLine {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--clr-gold), transparent);
+  animation: scroll-pulse 2s ease-in-out infinite;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .content { padding-inline: 1.25rem; }
+  .scroll  { display: none; }
+}
+
+@media (max-width: 480px) {
+  .actions { flex-direction: column; }
+}
