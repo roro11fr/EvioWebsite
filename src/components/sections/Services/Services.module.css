@@ -1,0 +1,80 @@
+.services { background: var(--clr-bg); }
+
+.header { margin-bottom: var(--space-lg); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.title em { font-style: italic; color: var(--clr-gold); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--clr-border);
+  border-left: 1px solid var(--clr-border);
+}
+
+/* Each Reveal wraps a card — we style the card inside */
+.card {
+  padding: 2.5rem;
+  border-right: 1px solid var(--clr-border);
+  border-bottom: 1px solid var(--clr-border);
+  transition: background 0.3s var(--ease-gold);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201, 164, 100, 0.04) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.card:hover::before { opacity: 1; }
+.card:hover         { background: rgba(201, 164, 100, 0.03); }
+
+.cardNumber {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--clr-gold-dim);
+  margin-bottom: 1.5rem;
+}
+
+.cardIcon {
+  display: block;
+  font-size: 1.5rem;
+  color: var(--clr-gold);
+  margin-bottom: 1.25rem;
+  transition: transform 0.3s var(--ease-out);
+}
+.card:hover .cardIcon { transform: scale(1.2); }
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+}
+
+.cardDesc {
+  font-size: 0.88rem;
+  color: var(--clr-muted);
+  line-height: 1.75;
+}
+
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+}
