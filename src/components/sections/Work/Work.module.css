@@ -11,52 +11,62 @@
 }
 .title em { font-style: italic; color: var(--clr-gold); }
 
+.intro {
+  max-width: 640px;
+  margin-top: 1.75rem;
+  font-size: 1.05rem;
+  color: rgba(245, 240, 232, 0.75);
+  line-height: 1.8;
+}
+
+/* ── Grid of client cards ─────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
-  margin-block: var(--space-lg);
+  list-style: none;
 }
 
-.item {
-  position: relative;
-  overflow: hidden;
+.item { position: relative; overflow: hidden; }
+
+.card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  background: var(--clr-bg);
 }
-.itemWide { grid-column: span 2; }
+.card:focus-visible { outline: 2px solid var(--clr-gold); outline-offset: -2px; }
 
 .thumb {
   position: relative;
-  aspect-ratio: 4/3;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
+  background: var(--clr-bg-3);
 }
-.itemWide .thumb { aspect-ratio: 16/9; }
 
-/* Placeholder gradient backgrounds */
-.placeholder {
+.image {
   width: 100%;
   height: 100%;
-  transition: transform 0.7s var(--ease-out);
+  object-fit: cover;
+  filter: grayscale(0.35) brightness(0.8);
+  transition: transform 0.7s var(--ease-out), filter 0.4s;
 }
-.item:hover .placeholder { transform: scale(1.04); }
-
-.placeholder1 { background: linear-gradient(135deg, #1a1208, #2d1f0a, #0d0d0d); }
-.placeholder2 { background: linear-gradient(135deg, #0a0f1a, #0f1a2d, #080d0a); }
-.placeholder3 { background: linear-gradient(135deg, #1a0a0a, #2d1010, #0d0508); }
-.placeholder4 { background: linear-gradient(135deg, #0a1a0a, #0f2d1a, #060d0a); }
-.placeholder5 { background: linear-gradient(135deg, #12100a, #1f1a08, #0a0c0d); }
+.card:hover .image,
+.card:focus-visible .image { transform: scale(1.04); filter: none; }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: rgba(8, 8, 8, 0.5);
+  background: rgba(8, 8, 8, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s;
-  z-index: 1;
 }
-.item:hover .overlay { opacity: 1; }
+.card:hover .overlay,
+.card:focus-visible .overlay { opacity: 1; }
 
 .play {
   width: 56px;
@@ -71,41 +81,116 @@
   transform: scale(0.8);
   transition: transform 0.3s var(--ease-out);
 }
-.item:hover .play { transform: scale(1); }
+.card:hover .play { transform: scale(1); }
 
 .info {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
   padding: 1rem 1.25rem;
-  background: var(--clr-bg);
 }
 
-.cat {
-  display: block;
+.itemTitle {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--clr-cream);
+}
+
+.cardButton {
+  flex-shrink: 0;
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--clr-gold);
-  margin-bottom: 0.3rem;
 }
 
-.itemTitle {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 400;
+/* ── Player dialog ────────────────────────────────────────── */
+.dialog {
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--clr-border);
+  background: var(--clr-bg);
   color: var(--clr-cream);
+  width: min(1100px, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+}
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
 }
 
-.cta {
-  text-align: center;
-  margin-top: var(--space-md);
+.dialogInner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.dialogHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dialogTitle {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.close,
+.ytLink {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+  transition: color 0.2s;
+}
+.close { color: var(--clr-cream); padding: 0.5rem; }
+.close:hover,
+.ytLink:hover { color: var(--clr-gold); }
+.ytLink { color: var(--clr-gold); align-self: flex-start; }
+
+/* Horizontal by default; vertical clips keep their 9:16 format */
+.player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+.player.vertical {
+  aspect-ratio: 9 / 16;
+  width: auto;
+  height: min(70dvh, 720px);
+  max-width: 100%;
+  align-self: center;
+}
+.player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 @media (max-width: 1024px) {
-  .grid    { grid-template-columns: repeat(2, 1fr); }
-  .itemWide { grid-column: span 2; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  /* 15 cards in 2 columns: let the last one span the row instead of sitting alone */
+  .item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .item:last-child:nth-child(odd) .thumb { aspect-ratio: 32 / 10; }
 }
 
-@media (max-width: 768px) {
-  .grid     { grid-template-columns: 1fr; }
-  .itemWide { grid-column: span 1; }
+@media (max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  .item:last-child:nth-child(odd) .thumb { aspect-ratio: 16 / 10; }
 }
+
+/* The custom cursor cannot render above the top-layer dialog — use the system cursor here */
+.dialog, .dialog * { cursor: auto; }
+.dialog button, .dialog a { cursor: pointer; }

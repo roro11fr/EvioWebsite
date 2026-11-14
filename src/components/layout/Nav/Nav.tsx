@@ -1,11 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { navLinks } from '@/lib/data';
+import { useState, useEffect, type MouseEvent } from 'react';
+import { dictionaries, homePath, LANGS, type Lang } from '@/lib/data';
 import styles from './Nav.module.css';
 
-export default function Nav() {
+const SECTION_IDS = ['hero', 'about', 'services', 'work', 'process', 'contact'];
+
+/** The section currently under the top third of the viewport. */
+function currentSectionId(): string | null {
+  const line = window.innerHeight / 3;
+  let current: string | null = null;
+  for (const id of SECTION_IDS) {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top <= line) current = id;
+  }
+  return current;
+}
+
+export default function Nav({ lang }: { lang: Lang }) {
+  const t = dictionaries[lang].nav;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen]         = useState(false);
 
@@ -31,36 +44,75 @@ export default function Nav() {
 
   const close = () => setOpen(false);
 
+  // Keep the visitor on the same section when switching language.
+  const switchLang = (e: MouseEvent<HTMLAnchorElement>, target: Lang) => {
+    e.preventDefault();
+    const id = currentSectionId();
+    const hash = id && id !== 'hero' ? `#${id}` : '';
+    window.location.assign(homePath[target] + hash);
+  };
+
+  const links = [
+    { href: '#about', label: t.about },
+    { href: '#services', label: t.services },
+    { href: '#work', label: t.work },
+    { href: '#process', label: t.process },
+  ];
+
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
-      <Link href="/" className={styles.logo}>
+      <a href={homePath[lang]} className={styles.logo}>
         EVIO<span>.</span>
-      </Link>
+      </a>
 
-      <button
-        className={styles.toggle}
-        onClick={() => setOpen((o) => !o)}
-        aria-label="Toggle menu"
-        aria-expanded={open}
-      >
-        <span />
-        <span />
-      </button>
-
-      <ul className={`${styles.links} ${open ? styles.open : ''}`}>
-        {navLinks.map(({ href, label }) => (
-          <li key={href}>
-            <Link href={href} onClick={close}>
-              {label}
-            </Link>
+      <div className={styles.right}>
+        <ul className={`${styles.links} ${open ? styles.open : ''}`}>
+          {links.map(({ href, label }) => (
+            <li key={href}>
+              <a href={href} onClick={close}>
+                {label}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="#contact" onClick={close} className={styles.cta}>
+              {t.cta}
+            </a>
           </li>
-        ))}
-        <li>
-          <Link href="#contact" onClick={close} className={styles.cta}>
-            Start a Project
-          </Link>
-        </li>
-      </ul>
+        </ul>
+
+        <div className={styles.lang} role="group" aria-label={t.langLabel}>
+          {LANGS.map((l, i) => (
+            <span key={l} className={styles.langItem}>
+              {i > 0 && <span className={styles.langSep} aria-hidden="true">/</span>}
+              {l === lang ? (
+                <span className={styles.langActive} aria-current="true">
+                  {l.toUpperCase()}
+                </span>
+              ) : (
+                <a
+                  href={homePath[l]}
+                  hrefLang={l}
+                  lang={l}
+                  onClick={(e) => switchLang(e, l)}
+                >
+                  {l.toUpperCase()}
+                </a>
+              )}
+            </span>
+          ))}
+        </div>
+
+        <button
+          className={styles.toggle}
+          onClick={() => setOpen((o) => !o)}
+          aria-label={open ? t.toggleClose : t.toggle}
+          aria-expanded={open}
+        >
+          <span />
+          <span />
+        </button>
+      </div>
     </nav>
   );
 }

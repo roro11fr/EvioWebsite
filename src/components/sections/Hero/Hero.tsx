@@ -1,14 +1,12 @@
 import Button from '@/components/ui/Button/Button';
+import { dictionaries, type Lang } from '@/lib/data';
 import styles from './Hero.module.css';
 
-const reelWords = [
-  'PRODUCTION','MARKETING','STORYTELLING',
-  'CINEMATIC','BRAND','CONTENT',
-  'PRODUCTION','MARKETING','STORYTELLING',
-  'CINEMATIC','BRAND','CONTENT',
-];
+export default function Hero({ lang }: { lang: Lang }) {
+  const t = dictionaries[lang].hero;
+  // Doubled for a seamless CSS loop
+  const reelWords = [...t.reel, ...t.reel];
 
-export default function Hero() {
   return (
     <section className={styles.hero} id="hero">
       {/* Background reel text — decorative, CSS animated */}
@@ -25,32 +23,30 @@ export default function Hero() {
       {/* Content — CSS entry animations */}
       <div className={styles.content}>
         <p className={`${styles.eyebrow} ${styles.animItem}`} style={{ animationDelay: '0s' }}>
-          Video &amp; Marketing Agency
+          {t.eyebrow}
         </p>
         <h1 className={styles.title}>
           <span className={`${styles.titleLine} ${styles.animItem}`} style={{ animationDelay: '0.1s' }}>
-            We make
+            {t.titleLine}
           </span>
           <span className={`${styles.titleItalic} ${styles.animItem}`} style={{ animationDelay: '0.2s' }}>
-            brands move.
+            {t.titleItalic}
           </span>
         </h1>
         <p className={`${styles.sub} ${styles.animItem}`} style={{ animationDelay: '0.3s' }}>
-          Cinematic video production and marketing campaigns
-          <br />
-          built to captivate, convert, and last.
+          {t.sub}
         </p>
         <div className={`${styles.actions} ${styles.animItem}`} style={{ animationDelay: '0.4s' }}>
-          <Button href="#work" variant="primary">See Our Work</Button>
-          <Button href="#contact" variant="ghost">Get a Quote</Button>
+          <Button href="#work" variant="primary">{t.primary}</Button>
+          <Button href="#contact" variant="ghost">{t.secondary}</Button>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className={styles.scroll} aria-hidden="true">
-        <span>Scroll</span>
-        <div className={styles.scrollLine} />
-      </div>
+      <a href="#about" className={styles.scroll}>
+        <span>{t.scroll}</span>
+        <div className={styles.scrollLine} aria-hidden="true" />
+      </a>
     </section>
   );
 }

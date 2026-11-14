@@ -56,6 +56,30 @@
   transform: translateY(-1px) !important;
 }
 
+/* Right-hand group: links + language switch + toggle */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Language switch — visible on desktop and mobile */
+.lang {
+  display: flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.langItem { display: flex; align-items: center; }
+.langSep  { color: var(--clr-muted); margin-inline: 0.45rem; }
+.langActive { color: var(--clr-gold); }
+.lang a {
+  color: var(--clr-muted);
+  transition: color 0.2s;
+}
+.lang a:hover { color: var(--clr-cream); }
+
 /* Hamburger toggle */
 .toggle {
   display: none;
@@ -74,21 +98,32 @@
 /* Mobile */
 @media (max-width: 768px) {
   .nav { padding-inline: 1.25rem; }
+  .right { gap: 1.25rem; }
 
   .toggle { display: flex; }
 
+  /* Positioned against the (fixed) nav: a fixed child would break once the
+     scrolled nav gets backdrop-filter, which becomes its containing block. */
   .links {
-    position: fixed;
-    inset: 0;
-    top: var(--nav-h);
-    background: rgba(8, 8, 8, 0.97);
-    backdrop-filter: blur(20px);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: calc(100dvh - var(--nav-h));
+    background: rgba(8, 8, 8, 0.98);
+    visibility: hidden;
     flex-direction: column;
     justify-content: center;
     gap: 2rem;
     transform: translateX(100%);
-    transition: transform 0.4s var(--ease-out);
+    transition: transform 0.4s var(--ease-out), visibility 0s linear 0.4s;
   }
-  .links.open { transform: none; }
+  .links.open { transform: none; visibility: visible; transition-delay: 0s; }
   .links li a  { font-size: 1rem; }
+}
+
+/* Tighter desktop spacing so the longer Romanian labels fit */
+@media (min-width: 769px) and (max-width: 1180px) {
+  .links { gap: 1.5rem; }
+  .right { gap: 1.5rem; }
 }

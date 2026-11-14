@@ -107,6 +107,11 @@ button {
   padding-inline: 2rem;
 }
 
+/* Anchored sections land below the fixed nav, not under it */
+section[id] {
+  scroll-margin-top: var(--nav-h);
+}
+
 .section {
   padding-block: var(--space-xl);
 }

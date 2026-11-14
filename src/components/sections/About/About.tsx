@@ -1,10 +1,12 @@
 import Reveal from '@/components/ui/Reveal/Reveal';
 import SectionLabel from '@/components/ui/SectionLabel/SectionLabel';
 import Button from '@/components/ui/Button/Button';
-import { stats } from '@/lib/data';
+import { dictionaries, type Lang } from '@/lib/data';
 import styles from './About.module.css';
 
-export default function About() {
+export default function About({ lang }: { lang: Lang }) {
+  const t = dictionaries[lang].about;
+
   return (
     <section className={`${styles.about} section`} id="about">
       <div className="container">
@@ -12,42 +14,35 @@ export default function About() {
           {/* Left */}
           <div className={styles.left}>
             <Reveal>
-              <SectionLabel>About Us</SectionLabel>
+              <SectionLabel>{t.label}</SectionLabel>
             </Reveal>
             <Reveal delay={1}>
               <h2 className={styles.title}>
-                Stories worth<br /><em>telling.</em>
+                {t.titleLine}<br /><em>{t.titleItalic}</em>
               </h2>
             </Reveal>
-            <div className={styles.stats}>
-              {stats.map((stat, i) => (
-                <Reveal key={stat.label} delay={(i + 2) as 2 | 3 | 4}>
-                  <div className={styles.stat}>
-                    <span className={styles.statNumber}>{stat.number}</span>
-                    <span className={styles.statLabel}>{stat.label}</span>
+            {/* Three pillars. Swap for `t.stats` once the numbers are confirmed. */}
+            <ul className={styles.pillars}>
+              {t.pillars.map((p, i) => (
+                <Reveal key={p.title} delay={(i + 2) as 2 | 3 | 4} as="li">
+                  <div className={styles.pillar}>
+                    <span className={styles.pillarTitle}>{p.title}</span>
+                    <span className={styles.pillarText}>{p.text}</span>
                   </div>
                 </Reveal>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* Right */}
           <div className={styles.right}>
-            <Reveal delay={1}>
-              <p className={styles.body}>
-                Evio Production is a full-service video and marketing agency
-                obsessed with one thing: making your brand impossible to ignore.
-              </p>
-            </Reveal>
-            <Reveal delay={2}>
-              <p className={styles.body}>
-                From concept to final cut, we combine cinematic craft with
-                strategic thinking — creating content that doesn&apos;t just look
-                good, but actually works.
-              </p>
-            </Reveal>
+            {t.body.map((para, i) => (
+              <Reveal key={i} delay={(i + 1) as 1 | 2}>
+                <p className={styles.body}>{para}</p>
+              </Reveal>
+            ))}
             <Reveal delay={3}>
-              <Button href="#contact" variant="outline">Work With Us</Button>
+              <Button href="#contact" variant="outline">{t.button}</Button>
             </Reveal>
           </div>
         </div>

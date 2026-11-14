@@ -78,3 +78,16 @@
 @media (max-width: 768px) {
   .grid { grid-template-columns: 1fr; }
 }
+
+.intro {
+  max-width: 640px;
+  margin-top: 1.75rem;
+  font-size: 1.05rem;
+  color: rgba(245, 240, 232, 0.75);
+  line-height: 1.8;
+}
+
+.cta {
+  margin-top: var(--space-lg);
+  text-align: center;
+}

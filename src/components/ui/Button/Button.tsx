@@ -37,6 +37,16 @@ export default function Button({
     );
   }
 
+  // Same-page anchors use a plain <a>: next/link does not scroll again when
+  // the URL already has that hash (e.g. a second click on any "#contact" button).
+  if (href.startsWith('#')) {
+    return (
+      <a href={href} className={cls}>
+        {children}
+      </a>
+    );
+  }
+
   return (
     <Link href={href} className={cls}>
       {children}

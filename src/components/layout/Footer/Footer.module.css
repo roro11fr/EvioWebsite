@@ -53,3 +53,23 @@
   .top    { flex-direction: column; gap: 1rem; text-align: center; }
   .bottom { flex-direction: column; gap: 1rem; text-align: center; }
 }
+
+.taglines { text-align: right; }
+
+.sub {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+  margin-top: 0.35rem;
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .taglines { text-align: center; }
+}

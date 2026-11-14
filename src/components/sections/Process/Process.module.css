@@ -12,6 +12,7 @@
 .title em { font-style: italic; color: var(--clr-gold); }
 
 .steps {
+  list-style: none;
   display: flex;
   flex-direction: column;
   border-left: 1px solid var(--clr-border);

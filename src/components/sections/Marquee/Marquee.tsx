@@ -1,10 +1,11 @@
-import { marqueeItems } from '@/lib/data';
+import { dictionaries, SERVICE_KEYS, type Lang } from '@/lib/data';
 import styles from './Marquee.module.css';
 
-// Duplicate for seamless loop
-const doubled = [...marqueeItems, ...marqueeItems];
+export default function Marquee({ lang }: { lang: Lang }) {
+  const items = SERVICE_KEYS.map((k) => dictionaries[lang].services.items[k].title);
+  // Duplicate for seamless loop
+  const doubled = [...items, ...items];
 
-export default function Marquee() {
   return (
     <div className={styles.marquee} aria-hidden="true">
       <div className={styles.track}>
