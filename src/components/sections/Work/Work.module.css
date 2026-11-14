@@ -1,4 +1,12 @@
 .work { background: var(--clr-bg-2); }
+/* Dedicated page: clear the fixed nav */
+.page { padding-top: calc(var(--nav-h) + var(--space-lg)); min-height: 100dvh; }
+
+.footerCta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-lg);
+}
 
 .header { margin-bottom: var(--space-lg); }
 

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, type MouseEvent } from 'react';
-import { dictionaries, homePath, LANGS, type Lang } from '@/lib/data';
+import { usePathname } from 'next/navigation';
+import { dictionaries, homePath, LANGS, portfolioPath, type Lang } from '@/lib/data';
 import styles from './Nav.module.css';
 
 const SECTION_IDS = ['hero', 'about', 'services', 'work', 'process', 'contact'];
@@ -21,6 +22,7 @@ export default function Nav({ lang }: { lang: Lang }) {
   const t = dictionaries[lang].nav;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen]         = useState(false);
+  const onPortfolio = usePathname() === portfolioPath[lang];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -44,38 +46,45 @@ export default function Nav({ lang }: { lang: Lang }) {
 
   const close = () => setOpen(false);
 
-  // Keep the visitor on the same section when switching language.
+  // Keep the visitor on the same page / section when switching language.
   const switchLang = (e: MouseEvent<HTMLAnchorElement>, target: Lang) => {
     e.preventDefault();
+    if (onPortfolio) {
+      window.location.assign(portfolioPath[target]);
+      return;
+    }
     const id = currentSectionId();
     const hash = id && id !== 'hero' ? `#${id}` : '';
     window.location.assign(homePath[target] + hash);
   };
 
+  // Section links point at the home page so they also work from the portfolio page.
+  const home = homePath[lang];
   const links = [
-    { href: '#about', label: t.about },
-    { href: '#services', label: t.services },
-    { href: '#work', label: t.work },
-    { href: '#process', label: t.process },
+    { href: `${home}#about`, label: t.about },
+    { href: `${home}#services`, label: t.services },
+    { href: portfolioPath[lang], label: t.work, current: onPortfolio },
+    { href: `${home}#process`, label: t.process },
   ];
 
   return (
     <nav className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
-      <a href={homePath[lang]} className={styles.logo}>
-        EVIO<span>.</span>
+      <a href={home} className={styles.logo} aria-label="EVIO Production">
+        {/* eslint-disable-next-line @next/next/no-img-element -- small static logo */}
+        <img src="/brand/evio-logo.png" alt="EVIO Production" width={377} height={458} />
       </a>
 
       <div className={styles.right}>
         <ul className={`${styles.links} ${open ? styles.open : ''}`}>
-          {links.map(({ href, label }) => (
+          {links.map(({ href, label, current }) => (
             <li key={href}>
-              <a href={href} onClick={close}>
+              <a href={href} onClick={close} aria-current={current ? 'page' : undefined}>
                 {label}
               </a>
             </li>
           ))}
           <li>
-            <a href="#contact" onClick={close} className={styles.cta}>
+            <a href={`${home}#contact`} onClick={close} className={styles.cta}>
               {t.cta}
             </a>
           </li>
@@ -91,7 +100,7 @@ export default function Nav({ lang }: { lang: Lang }) {
                 </span>
               ) : (
                 <a
-                  href={homePath[l]}
+                  href={onPortfolio ? portfolioPath[l] : homePath[l]}
                   hrefLang={l}
                   lang={l}
                   onClick={(e) => switchLang(e, l)}

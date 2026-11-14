@@ -10,6 +10,12 @@ export const LANGS: Lang[] = ['ro', 'en'];
 /** Home path for each language. */
 export const homePath: Record<Lang, string> = { ro: '/', en: '/en' };
 
+/** Full portfolio page for each language. */
+export const portfolioPath: Record<Lang, string> = { ro: '/portofoliu', en: '/en/portfolio' };
+
+/** How many projects the home page shows before the "view full portfolio" button. */
+export const FEATURED_COUNT = 6;
+
 // ── SHARED (language-neutral) ───────────────────────────────
 
 export const INSTAGRAM_URL = 'https://www.instagram.com/evioproduction/';
@@ -32,6 +38,9 @@ export const serviceIcons: Record<ServiceKey, string> = {
 // Client names stay the same in both languages.
 // `embed`: a YouTube playlist (`list`) or a single video (`video`).
 // `thumb`: a video ID used for the card image (first clip of the playlist).
+// `poster`: optional custom cover image in /public/portfolio (e.g. 'zada.jpg').
+//           When set it replaces the YouTube thumbnail — use it for any card
+//           whose automatic YouTube preview doesn't look good.
 // `vertical`: the material is in vertical (9:16) format (judged by the first clip).
 
 export interface Client {
@@ -39,6 +48,7 @@ export interface Client {
   url: string;
   embed: { list: string } | { video: string };
   thumb: string;
+  poster?: string;
   vertical?: boolean;
 }
 
@@ -48,6 +58,7 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLYAkMcWaoYb4',
     embed: { list: 'PLYAkMcWaoYb4' },
     thumb: 'PVnhIJ2rRMY',
+    poster: 'zada.jpg',
     vertical: true,
   },
   {
@@ -55,6 +66,7 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLGFqs1U5W7IM',
     embed: { list: 'PLGFqs1U5W7IM' },
     thumb: 'qUq3zmZ9t5Q',
+    poster: 'rk-med.jpg',
     vertical: true,
   },
   {
@@ -63,6 +75,7 @@ export const clients: Client[] = [
     // Shorts playlist of the JADENT channel (UUSH + channel ID).
     embed: { list: 'UUSHGSjn7aSZ1wMEBHyZ5uNOxQ' },
     thumb: '3RQDkO-u4Qc',
+    poster: 'jadent.jpg',
     vertical: true,
   },
   {
@@ -70,6 +83,7 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLKHIP7sj5TNc',
     embed: { list: 'PLKHIP7sj5TNc' },
     thumb: 'eS3bSBPvprg',
+    poster: 'casa-meseriasilor.jpg',
     vertical: true,
   },
   {
@@ -77,6 +91,7 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLBvZTh2AhiAY',
     embed: { list: 'PLBvZTh2AhiAY' },
     thumb: 'nWXbpoCfx1k',
+    poster: 'fereastra-adf.jpg',
     vertical: true,
   },
   {
@@ -84,6 +99,7 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLF5KMB8TmPUo',
     embed: { list: 'PLF5KMB8TmPUo' },
     thumb: 'xp4-Ng5hfkc',
+    poster: 'zone47.jpg',
     vertical: true,
   },
   {
@@ -91,6 +107,7 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLKK5slaX8n3w',
     embed: { list: 'PLKK5slaX8n3w' },
     thumb: '7urut_ZZPik',
+    poster: 'hanul-bucovinei.jpg',
     vertical: true,
   },
   {
@@ -98,12 +115,14 @@ export const clients: Client[] = [
     url: 'https://youtu.be/VGEnpmKRWsM',
     embed: { video: 'VGEnpmKRWsM' },
     thumb: 'VGEnpmKRWsM',
+    poster: 'expert-music.jpg',
   },
   {
     name: 'Peak Gaming',
     url: 'https://youtube.com/shorts/vsulGYjX-vQ',
     embed: { video: 'vsulGYjX-vQ' },
     thumb: 'vsulGYjX-vQ',
+    poster: 'peak-gaming.jpg',
     vertical: true,
   },
   {
@@ -111,6 +130,7 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLeUA_inRrAms',
     embed: { list: 'PLeUA_inRrAms' },
     thumb: 'niu-qh6K8bQ',
+    poster: 'blues-festival.jpg',
     vertical: true,
   },
   {
@@ -118,6 +138,7 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLIrbpSfV7Lh8',
     embed: { list: 'PLIrbpSfV7Lh8' },
     thumb: 'D9QgwAaLWCA',
+    poster: '8imo.jpg',
     vertical: true,
   },
   {
@@ -125,18 +146,21 @@ export const clients: Client[] = [
     url: 'https://www.youtube.com/playlist?list=PLUb3bqmuKu4A',
     embed: { list: 'PLUb3bqmuKu4A' },
     thumb: 'X_aTIkxN7JU',
+    poster: 'zenman.jpg',
   },
   {
     name: 'BUSYMAN',
     url: 'https://www.youtube.com/playlist?list=PLDJ70bGNlrcg',
     embed: { list: 'PLDJ70bGNlrcg' },
     thumb: 'NtttFE48nUY',
+    poster: 'busyman.jpg',
   },
   {
     name: 'DAR DAUNE',
     url: 'https://www.youtube.com/playlist?list=PLERUHVkNATy4',
     embed: { list: 'PLERUHVkNATy4' },
     thumb: 'uF5f_sWRPLA',
+    poster: 'dar-daune.jpg',
     vertical: true,
   },
   {
@@ -144,6 +168,7 @@ export const clients: Client[] = [
     url: 'https://youtube.com/shorts/vcOPNYaNENg',
     embed: { video: 'vcOPNYaNENg' },
     thumb: 'vcOPNYaNENg',
+    poster: 'hotel-continental.jpg',
     vertical: true,
   },
 ];
@@ -225,6 +250,10 @@ export interface Dictionary {
     playlistLink: string;
     logosLabel: string;
     close: string;
+    viewAll: string;
+    backHome: string;
+    pageTitle: string;
+    pageDescription: string;
   };
   process: {
     label: string;
@@ -361,6 +390,11 @@ const ro: Dictionary = {
     playlistLink: 'Vezi selecția pe YouTube',
     logosLabel: 'Branduri cu care am lucrat',
     close: 'Închide',
+    viewAll: 'Vezi portofoliul',
+    backHome: 'Înapoi la pagina principală',
+    pageTitle: 'Portofoliu | EVIO Production',
+    pageDescription:
+      'Selecție de materiale video realizate de EVIO Production pentru brandurile cu care lucrăm: filme de brand, conținut social media și campanii.',
   },
   process: {
     label: 'Cum lucrăm',
@@ -527,6 +561,11 @@ const en: Dictionary = {
     playlistLink: 'Watch the selection on YouTube',
     logosLabel: 'Brands we’ve worked with',
     close: 'Close',
+    viewAll: 'View full portfolio',
+    backHome: 'Back to home',
+    pageTitle: 'Portfolio | EVIO Production',
+    pageDescription:
+      'A selection of video work by EVIO Production for the brands we work with: brand films, social media content, and campaigns.',
   },
   process: {
     label: 'How we work',

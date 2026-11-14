@@ -3,7 +3,16 @@
 import { useEffect, useRef, useState } from 'react';
 import Reveal from '@/components/ui/Reveal/Reveal';
 import SectionLabel from '@/components/ui/SectionLabel/SectionLabel';
-import { clients, dictionaries, type Client, type Lang } from '@/lib/data';
+import Button from '@/components/ui/Button/Button';
+import {
+  clients,
+  dictionaries,
+  FEATURED_COUNT,
+  homePath,
+  portfolioPath,
+  type Client,
+  type Lang,
+} from '@/lib/data';
 import styles from './Work.module.css';
 
 function embedUrl(client: Client): string {
@@ -14,8 +23,22 @@ function embedUrl(client: Client): string {
     : `${base}${client.embed.video}?${params}`;
 }
 
-export default function Work({ lang }: { lang: Lang }) {
+/** Custom cover from /public/portfolio, otherwise the full-resolution YouTube thumbnail. */
+function coverUrl(client: Client): string {
+  return client.poster
+    ? `/portfolio/${client.poster}`
+    : `https://i.ytimg.com/vi/${client.thumb}/maxresdefault.jpg`;
+}
+
+/**
+ * `home`: a teaser with the first FEATURED_COUNT projects and a link to the full page.
+ * `page`: the dedicated portfolio page with every project.
+ */
+export default function Work({ lang, variant = 'home' }: { lang: Lang; variant?: 'home' | 'page' }) {
   const t = dictionaries[lang].work;
+  const isPage = variant === 'page';
+  const shown = isPage ? clients : clients.slice(0, FEATURED_COUNT);
+  const Heading = isPage ? 'h1' : 'h2';
   const [active, setActive] = useState<Client | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -36,16 +59,16 @@ export default function Work({ lang }: { lang: Lang }) {
   };
 
   return (
-    <section className={`${styles.work} section`} id="work">
+    <section className={`${styles.work} section ${isPage ? styles.page : ''}`} id="work">
       <div className="container">
         <div className={styles.header}>
           <Reveal>
             <SectionLabel>{t.label}</SectionLabel>
           </Reveal>
           <Reveal delay={1}>
-            <h2 className={styles.title}>
+            <Heading className={styles.title}>
               {t.titleLine}<br /><em>{t.titleItalic}</em>
-            </h2>
+            </Heading>
           </Reveal>
           <Reveal delay={2}>
             <p className={styles.intro}>{t.intro}</p>
@@ -54,7 +77,7 @@ export default function Work({ lang }: { lang: Lang }) {
       </div>
 
       <ul className={styles.grid}>
-        {clients.map((client, i) => (
+        {shown.map((client, i) => (
           <Reveal key={client.name} delay={(i % 3) as 0 | 1 | 2} as="li" className={styles.item}>
             <button
               type="button"
@@ -66,9 +89,9 @@ export default function Work({ lang }: { lang: Lang }) {
               aria-haspopup="dialog"
             >
               <div className={styles.thumb}>
-                {/* eslint-disable-next-line @next/next/no-img-element -- YouTube thumbnail, no optimisation needed */}
+                {/* eslint-disable-next-line @next/next/no-img-element -- remote YouTube thumbnail or static cover */}
                 <img
-                  src={`https://i.ytimg.com/vi/${client.thumb}/hqdefault.jpg`}
+                  src={coverUrl(client)}
                   alt=""
                   loading="lazy"
                   decoding="async"
@@ -86,6 +109,16 @@ export default function Work({ lang }: { lang: Lang }) {
           </Reveal>
         ))}
       </ul>
+
+      <div className={`container ${styles.footerCta}`}>
+        <Reveal>
+          {isPage ? (
+            <Button href={homePath[lang]} variant="outline">← {t.backHome}</Button>
+          ) : (
+            <Button href={portfolioPath[lang]} variant="outline">{t.viewAll} →</Button>
+          )}
+        </Reveal>
+      </div>
 
       <dialog
         ref={dialogRef}

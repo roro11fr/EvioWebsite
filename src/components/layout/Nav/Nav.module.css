@@ -19,13 +19,14 @@
 }
 
 /* Logo */
-.logo {
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--clr-cream);
+.logo { display: flex; align-items: center; height: 100%; }
+.logo img {
+  display: block;
+  height: 64px;
+  width: auto;
+  transition: height 0.3s;
 }
-.logo span { color: var(--clr-gold); }
+.nav.scrolled .logo img { height: 54px; }
 
 /* Links list */
 .links {
@@ -42,7 +43,8 @@
   color: var(--clr-muted);
   transition: color 0.2s;
 }
-.links li a:hover { color: var(--clr-cream); }
+.links li a:hover,
+.links li a[aria-current='page'] { color: var(--clr-cream); }
 
 /* CTA link */
 .cta {

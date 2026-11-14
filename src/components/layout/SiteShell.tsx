@@ -4,7 +4,7 @@ import Grain from '@/components/layout/Grain';
 import CustomCursor from '@/components/layout/CustomCursor/CustomCursor';
 import Nav from '@/components/layout/Nav/Nav';
 import Footer from '@/components/layout/Footer/Footer';
-import { dictionaries, homePath, type Lang } from '@/lib/data';
+import { dictionaries, homePath, portfolioPath, type Lang } from '@/lib/data';
 import '@/app/globals.css';
 
 // ── Fonts ────────────────────────────────────────────────────
@@ -30,15 +30,19 @@ const siteUrl =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : 'http://localhost:3000');
 
-export function buildMetadata(lang: Lang): Metadata {
-  const { title, description } = dictionaries[lang].meta;
+export function buildMetadata(lang: Lang, page: 'home' | 'portfolio' = 'home'): Metadata {
+  const dict = dictionaries[lang];
+  const isPortfolio = page === 'portfolio';
+  const title = isPortfolio ? dict.work.pageTitle : dict.meta.title;
+  const description = isPortfolio ? dict.work.pageDescription : dict.meta.description;
+  const paths = isPortfolio ? portfolioPath : homePath;
   return {
     metadataBase: new URL(siteUrl),
     title,
     description,
     alternates: {
-      canonical: homePath[lang],
-      languages: { ro: homePath.ro, en: homePath.en, 'x-default': homePath.ro },
+      canonical: paths[lang],
+      languages: { ro: paths.ro, en: paths.en, 'x-default': paths.ro },
     },
     openGraph: {
       title,
@@ -46,7 +50,7 @@ export function buildMetadata(lang: Lang): Metadata {
       siteName: 'EVIO Production',
       locale: lang === 'ro' ? 'ro_RO' : 'en_US',
       type: 'website',
-      url: homePath[lang],
+      url: paths[lang],
     },
   };
 }
